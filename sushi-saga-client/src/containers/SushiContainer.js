@@ -1,16 +1,26 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import MoreButton from '../components/MoreButton'
+import Sushi from '../components/Sushi'
 
 const SushiContainer = (props) => {
+  const [startIndex, setIndex] = useState(0)
+  const allSushi = props.sushi.map(s => <Sushi key={s.id} sushi={s} handleTable={props.handleTable}/>)
+
+  const incrementIndex = () => {
+    let newIndex = startIndex + 4
+    if (newIndex > allSushi.length) {
+      newIndex = 0
+    }
+    setIndex(newIndex)
+  }
+  
   return (
     <Fragment>
       <div className="belt">
         {
-          /* 
-             Render Sushi components here!
-          */
+          [...allSushi].splice(startIndex, 4)
         }
-        <MoreButton />
+        <MoreButton more={incrementIndex} eaten={false}/>
       </div>
     </Fragment>
   )
